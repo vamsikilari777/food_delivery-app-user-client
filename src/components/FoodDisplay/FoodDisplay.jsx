@@ -3,7 +3,8 @@ import { StoreContext } from '../../context/StoreContext';
 import FoodItem from '../FoodItem/FoodItem';
 
 const FoodDisplay = ({category, searchText}) => {
- const BASE_URL = "http://localhost:8080";
+//  const BASE_URL = "http://localhost:8080";
+ const BASE_URL = "https://food-delivery-app-server-w0i3.onrender.com";
     const {foodList} = useContext(StoreContext);
     const filteredFoods = foodList.filter(food => (
         (category === 'All' || food.category === category) &&
