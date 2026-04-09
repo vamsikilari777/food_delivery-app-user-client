@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { calculateCartTotals } from "../../util/cartUtils";
 
 const Cart = () => {
+  const BASE_URL = "https://food-delivery-app-server-w0i3.onrender.com";
   const navigate = useNavigate();
   const { foodList, increaseQty, decreaseQty, quantities, removeFromCart } =
     useContext(StoreContext);
@@ -31,7 +32,7 @@ const Cart = () => {
                   <div key={food.id} className="row cart-item mb-3">
                     <div className="col-md-3">
                       <img
-                        src={food.imageUrl}
+                        src={`${BASE_URL}${food.imageUrl}`}
                         alt={food.name}
                         className="img-fluid rounded"
                         width={100}
