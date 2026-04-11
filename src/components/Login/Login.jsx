@@ -8,6 +8,9 @@ import { toast } from "react-toastify";
 const Login = () => {
   const { setToken, loadCartData } = useContext(StoreContext);
   const navigate = useNavigate();
+
+  const [loading, setLoading] = useState(false); // ✅ loading state
+
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -21,12 +24,18 @@ const Login = () => {
 
   const onSubmitHandler = async (event) => {
     event.preventDefault();
+    setLoading(true); // ✅ start loading
+
     try {
       const response = await login(data);
+
       if (response.status === 200) {
         setToken(response.data.token);
         localStorage.setItem("token", response.data.token);
+
         await loadCartData(response.data.token);
+
+        toast.success("Login successful");
         navigate("/");
       } else {
         toast.error("Unable to login. Please try again.");
@@ -34,8 +43,11 @@ const Login = () => {
     } catch (error) {
       console.log("Unable to login", error);
       toast.error("Unable to login. Please try again");
+    } finally {
+      setLoading(false); // ✅ stop loading
     }
   };
+
   return (
     <div className="login-container">
       <div className="row">
@@ -45,6 +57,7 @@ const Login = () => {
               <h5 className="card-title text-center mb-5 fw-light fs-5">
                 Sign In
               </h5>
+
               <form onSubmit={onSubmitHandler}>
                 <div className="form-floating mb-3">
                   <input
@@ -55,9 +68,12 @@ const Login = () => {
                     name="email"
                     onChange={onChangeHandler}
                     value={data.email}
+                    required
+                    disabled={loading}
                   />
                   <label htmlFor="floatingInput">Email address</label>
                 </div>
+
                 <div className="form-floating mb-3">
                   <input
                     type="password"
@@ -67,28 +83,44 @@ const Login = () => {
                     name="password"
                     onChange={onChangeHandler}
                     value={data.password}
+                    required
+                    disabled={loading}
                   />
                   <label htmlFor="floatingPassword">Password</label>
                 </div>
 
                 <div className="d-grid">
+                  {/* ✅ Spinner Button */}
                   <button
                     className="btn btn-outline-primary btn-login text-uppercase"
                     type="submit"
+                    disabled={loading}
                   >
-                    Sign in
+                    {loading ? (
+                      <>
+                        <span className="spinner-border spinner-border-sm me-2"></span>
+                        Signing in...
+                      </>
+                    ) : (
+                      "Sign in"
+                    )}
                   </button>
+
                   <button
                     className="btn btn-outline-danger btn-login text-uppercase mt-2"
                     type="reset"
+                    disabled={loading}
                   >
                     Reset
                   </button>
                 </div>
+
                 <div className="mt-4">
-                  Don't have an account? <Link to="/register">Sign up</Link>
+                  Don't have an account?{" "}
+                  <Link to="/register">Sign up</Link>
                 </div>
               </form>
+
             </div>
           </div>
         </div>

@@ -6,6 +6,7 @@ import { registerUser } from "../../service/authService";
 
 const Register = () => {
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -19,20 +20,24 @@ const Register = () => {
   };
 
   const onSubmitHandler = async (event) => {
-    event.preventDefault();
-    try {
-      const response = await registerUser(data);
-     
-      if (response.status === 200) {
-        toast.success("Registration completed. Please login.");
-        navigate("/login");
-      } else {
-        toast.error("Unable to register. Please try again");
-      }
-    } catch (error) {
+  event.preventDefault();
+  setLoading(true); // start loading
+
+  try {
+    const response = await registerUser(data);
+
+    if (response.status === 200) {
+      toast.success("Registration completed. Please login.");
+      navigate("/login");
+    } else {
       toast.error("Unable to register. Please try again");
     }
-  };
+  } catch (error) {
+    toast.error("Unable to register. Please try again");
+  } finally {
+    setLoading(false); // stop loading
+  }
+};
 
   return (
     <div className="register-container">
@@ -86,11 +91,19 @@ const Register = () => {
 
                 <div className="d-grid">
                   <button
-                    className="btn btn-outline-primary btn-login text-uppercase"
-                    type="submit"
-                  >
-                    Sign up
-                  </button>
+                      className="btn btn-outline-primary btn-login text-uppercase"
+                      type="submit"
+                      disabled={loading}
+                    >
+                      {loading ? (
+                        <>
+                          <span className="spinner-border spinner-border-sm me-2"></span>
+                          Signing up...
+                        </>
+                      ) : (
+                        "Sign up"
+                      )}
+                    </button>
                   <button
                     className="btn btn-outline-danger btn-login text-uppercase mt-2"
                     type="reset"
