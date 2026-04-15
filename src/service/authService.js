@@ -5,7 +5,7 @@ import api from "../api/Axios.js"
 
 export const registerUser = async (data) => {
     try {
-        const response = await api.post("/register", data);
+        const response = await api.post("/api/register", data);
         
         return response;
     } catch (error) {
@@ -15,7 +15,7 @@ export const registerUser = async (data) => {
 
 export const login = async (data) => {
     try {
-        const response = await api.post( "/login", data);
+        const response = await api.post( "/api/login", data);
         return response;
     } catch (error) {
         throw error.response?.data || "Login failed";

@@ -20,11 +20,19 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response?.status === 403) {
+    const url = error.config?.url;
+
+    // ✅ Only logout for protected APIs
+    if (
+      error.response?.status === 403 &&
+      !url.includes("/login") &&
+      !url.includes("/register") && !url.includes("/foods")
+    ) {
       localStorage.removeItem("token");
       alert("Session expired. Please login again.");
       window.location.href = "/login";
     }
+
     return Promise.reject(error);
   }
 );
