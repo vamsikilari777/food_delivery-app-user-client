@@ -1,11 +1,13 @@
 import axios from "axios";
 
+// ✅ Add this line
+export const BASE_URL = "https://food-delivery-app-server-w0i3.onrender.com";
+
 const api = axios.create({
-  baseURL: "https://food-delivery-app-server-w0i3.onrender.com",
-  // baseURL:"http://localhost:8080"
+  baseURL: BASE_URL,
 });
 
-// ✅ Attach token to every request
+// ✅ Attach token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -14,7 +16,7 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-// ✅ Handle 403 globally (TOKEN EXPIRED)
+// ✅ Handle 403
 api.interceptors.response.use(
   (response) => response,
   (error) => {

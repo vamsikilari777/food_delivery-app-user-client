@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { StoreContext } from '../../context/StoreContext';
 import FoodItem from '../FoodItem/FoodItem';
-import { BASE_URL } from "../../api/Axios"; // ✅ import here
+import { BASE_URL } from "../../api/Axios"; 
 
 const FoodDisplay = ({category, searchText}) => {
 
