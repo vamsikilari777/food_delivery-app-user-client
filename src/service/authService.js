@@ -1,11 +1,11 @@
-import axios from "axios";
+import api from "../api/Axios.js"
 
-// const API_URL = "http://localhost:8080/api";
-const API_URL = "https://food-delivery-app-server-w0i3.onrender.com/api";
+
+
 
 export const registerUser = async (data) => {
     try {
-        const response = await axios.post(API_URL + "/register", data);
+        const response = await api.post("/register", data);
         
         return response;
     } catch (error) {
@@ -15,7 +15,7 @@ export const registerUser = async (data) => {
 
 export const login = async (data) => {
     try {
-        const response = await axios.post(API_URL + "/login", data);
+        const response = await api.post( "/login", data);
         return response;
     } catch (error) {
         throw error.response?.data || "Login failed";

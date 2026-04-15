@@ -1,11 +1,11 @@
-import axios from "axios";
 
-// const API_URL = "http://localhost:8080/api/orders";
-const API_URL = "https://food-delivery-app-server-w0i3.onrender.com/api/orders";
+import api from "../api/Axios";
+
+
 
 export const fetchUserOrders = async (token) => {
     try {
-        const response = await axios.get(API_URL, {
+        const response = await api.get("/api/orders", {
             headers: { Authorization: `Bearer ${token}` },
         }); 
         return response.data;
@@ -17,8 +17,8 @@ export const fetchUserOrders = async (token) => {
 
 export const createOrder = async (orderData, token) => {
     try {
-        const response = await axios.post(
-            API_URL+"/create",
+        const response = await api.post(
+            "/api/orders/create",
             orderData,
             { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -31,8 +31,8 @@ export const createOrder = async (orderData, token) => {
 
 export const verifyPayment = async (paymentData, token) => {
     try {
-        const response = await axios.post(
-            API_URL+"/verify",
+        const response = await api.post(
+            "/api/orders/verify",
             paymentData,
             { headers: { Authorization: `Bearer ${token}` } }
         );
@@ -45,7 +45,7 @@ export const verifyPayment = async (paymentData, token) => {
 
 export const deleteOrder = async (orderId, token) => {
     try {
-        await axios.delete(API_URL+"/"+ orderId, {
+        await api.delete("/api/orders/"+ orderId, {
             headers: { Authorization: `Bearer ${token}` },
         });
     } catch (error) {

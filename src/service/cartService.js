@@ -1,12 +1,12 @@
-import axios from "axios";
 
-// const API_URL = "http://localhost:8080/api/cart";
-const API_URL = "https://food-delivery-app-server-w0i3.onrender.com/api/cart";
+
+import api from "../api/Axios.js"
+
 
 export const addToCart = async (foodId, token) => {
     try {
-        await axios.post(
-            API_URL,
+        await api.post(
+            "/api/cart",
             { foodId },
             { headers: { Authorization: `Bearer ${token}` } }
           );
@@ -17,8 +17,8 @@ export const addToCart = async (foodId, token) => {
 
 export const removeQtyFromCart = async (foodId, token) => {
     try {
-        await axios.post(
-            API_URL+"/remove",
+        await api.post(
+            "/api/cart/remove",
             { foodId },
             { headers: { Authorization: `Bearer ${token}` } }
           );
@@ -29,7 +29,7 @@ export const removeQtyFromCart = async (foodId, token) => {
 
 export const getCartData = async (token) => {
     try {
-        const response = await axios.get(API_URL, {
+        const response = await api.get("/api/cart", {
             headers: { Authorization: `Bearer ${token}` },
           });
           return response.data.items;
@@ -40,7 +40,7 @@ export const getCartData = async (token) => {
 
 export const clearCartItems = async (token, setQuantities) => {
     try {
-        await axios.delete(API_URL, {
+        await api.delete( {
             headers: { Authorization: `Bearer ${token}` },
         });
         setQuantities({});
