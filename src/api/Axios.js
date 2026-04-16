@@ -26,7 +26,7 @@ api.interceptors.response.use(
     if (
       error.response?.status === 403 &&
       !url.includes("/login") &&
-      !url.includes("/register") && !url.includes("/foods")
+      !url.includes("/register") 
     ) {
       localStorage.removeItem("token");
       alert("Session expired. Please login again.");
